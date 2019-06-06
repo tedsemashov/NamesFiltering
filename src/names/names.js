@@ -7,21 +7,26 @@ import './names.css';
 class Names extends Component {
    state = {
       names: [],
+      staticNames: [],
       selectedName: '',
-      selectedId: '',
-      selectedSex: '',
-      filteredNames: [],
-      prevTarget: null,
-      newNames: []
+      prevInputValue: null,
+   };
+
+   getNames() {
+      fetch('/names')
+           .then((res) => res.json())
+           .then(({ data } ) => {
+                this.setState({names: data});
+                this.setState({staticNames: data})
+           })
    };
 
    componentDidMount() {
-      fetch('/names')
-           .then((res) => res.json())
-           .then(({ data } ) => this.setState({names: data}))
+      this.getNames();
    };
 
-   clickHandler = (name) => {
+   //Set Name in input tag and delete this {object} from list
+   setName = (name) => {
       this.setState({selectedName: name});
       let names = this.state.names;
       for (let obj of names) {
@@ -31,42 +36,36 @@ class Names extends Component {
       }
    };
 
+   //Filtering names according to text in input
    filterNames = (e) => {
-      this.setState({prevTarget: e.target.value.length});
-      debugger;
-      if(e.target.value.length < this.state.prevTarget) {
-         fetch('/names')
-              .then((res) => res.json())
-              .then(({ data } ) => this.setState({newNames: data}));
+      let self = this;
+      this.setState({prevInputValue: e.target.value.length});
 
-         let updatedNames = this.state.newNames;
+      let filtering = function(updatedNames) {
          updatedNames = updatedNames.filter(function (obj) {
             return obj.name.toLowerCase().search(
                  e.target.value.toLowerCase()) !== -1;
          });
-         this.setState({selectedName: e.target.value});
-         this.setState({names: updatedNames});
-         debugger;
+         self.setState({selectedName: e.target.value});
+         self.setState({names: updatedNames});
+      };
+
+      if(e.target.value.length < this.state.prevInputValue) {
+         let updatedNames = this.state.staticNames;
+         filtering(updatedNames);
       } else {
          let updatedNames = this.state.names;
-         updatedNames = updatedNames.filter(function (obj) {
-            return obj.name.toLowerCase().search(
-                 e.target.value.toLowerCase()) !== -1;
-         });
-         this.setState({selectedName: e.target.value});
-         this.setState({names: updatedNames});
-         debugger;
+         filtering(updatedNames);
       }
    };
 
+   //Canceled filtering and returned App to initial state
    cancelName = () => {
+      this.getNames();
+
       if(this.state.selectedName.name !== '') {
          this.setState({selectedName: ''});
       }
-
-      fetch('/names')
-           .then((res) => res.json())
-           .then(({ data } ) => this.setState({names: data}))
    };
 
    render() {
@@ -76,10 +75,7 @@ class Names extends Component {
               <div id="filterInput">
                  <InputGroup className="mb-3">
                     <FormControl
-                         as='input'
                          placeholder="Tap here for filtering"
-                         aria-label="Tap here for filtering"
-                         aria-describedby="basic-addon2"
                          value={this.state.selectedName}
                          onChange={this.filterNames}
                     />
@@ -89,9 +85,9 @@ class Names extends Component {
                  </InputGroup>
               </div>
               {
-                 names.map(({id, name, sex}) =>
+                 names.map(({id, name}) =>
                    <Button variant="outline-primary" size="sm" type="button" id="buttonName"
-                           key={id} onClick = {(e) => this.clickHandler(name, e)}> {name} </Button>
+                           key={id} onClick = {(e) => this.setName(name, e)}> {name} </Button>
                  )
               }
            </div>
