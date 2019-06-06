@@ -3,6 +3,11 @@
    padding: 0;
 }
 
-button {
+#buttonName {
    margin: 3px;
+}
+
+#filterInput {
+   width: 50%;
+   margin: 2% auto 2% auto;
 }
