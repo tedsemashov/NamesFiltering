@@ -10,14 +10,16 @@ class Names extends Component {
       selectedName: '',
       selectedId: '',
       selectedSex: '',
-      filteredNames: []
+      filteredNames: [],
+      prevTarget: null,
+      newNames: []
    };
 
    componentDidMount() {
       fetch('/names')
            .then((res) => res.json())
            .then(({ data } ) => this.setState({names: data}))
-   }
+   };
 
    clickHandler = (name) => {
       this.setState({selectedName: name});
@@ -30,13 +32,31 @@ class Names extends Component {
    };
 
    filterNames = (e) => {
-      let updatedNames = this.state.names;
-      updatedNames = updatedNames.filter(function (obj) {
-         return obj.name.toLowerCase().search(
-              e.target.value.toLowerCase()) !== -1;
-      });
-      this.setState({selectedName: e.target.value});
-      this.setState({names: updatedNames});
+      this.setState({prevTarget: e.target.value.length});
+      debugger;
+      if(e.target.value.length < this.state.prevTarget) {
+         fetch('/names')
+              .then((res) => res.json())
+              .then(({ data } ) => this.setState({newNames: data}));
+
+         let updatedNames = this.state.newNames;
+         updatedNames = updatedNames.filter(function (obj) {
+            return obj.name.toLowerCase().search(
+                 e.target.value.toLowerCase()) !== -1;
+         });
+         this.setState({selectedName: e.target.value});
+         this.setState({names: updatedNames});
+         debugger;
+      } else {
+         let updatedNames = this.state.names;
+         updatedNames = updatedNames.filter(function (obj) {
+            return obj.name.toLowerCase().search(
+                 e.target.value.toLowerCase()) !== -1;
+         });
+         this.setState({selectedName: e.target.value});
+         this.setState({names: updatedNames});
+         debugger;
+      }
    };
 
    cancelName = () => {
