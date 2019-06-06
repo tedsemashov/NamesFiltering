@@ -9,7 +9,8 @@ class Names extends Component {
       names: [],
       selectedName: '',
       selectedId: '',
-      selectedSex: ''
+      selectedSex: '',
+      filteredNames: []
    };
 
    componentDidMount() {
@@ -18,34 +19,34 @@ class Names extends Component {
            .then(({ data } ) => this.setState({names: data}))
    }
 
-   clickHandler = (name, id, sex) => {
+   clickHandler = (name) => {
       this.setState({selectedName: name});
-      this.setState({selectedId: id});
-      this.setState({selectedSex: sex});
       let names = this.state.names;
       for (let obj of names) {
          if(obj.name === name) {
             names.splice(names.indexOf(obj), 1);
          }
       }
-      debugger;
    };
 
    filterNames = (e) => {
-      debugger;
+      let updatedNames = this.state.names;
+      updatedNames = updatedNames.filter(function (obj) {
+         return obj.name.toLowerCase().search(
+              e.target.value.toLowerCase()) !== -1;
+      });
+      this.setState({selectedName: e.target.value});
+      this.setState({names: updatedNames});
    };
 
    cancelName = () => {
-      let newName = {
-         id: this.state.selectedId,
-         name: this.state.selectedName,
-         sex: this.state.selectedSex
-      };
-      let names = this.state.names;
-      names.unshift(newName);
-      this.setState({selectedName: ''});
-      this.setState({selectedId: ''});
-      this.setState({selectedSex: ''});
+      if(this.state.selectedName.name !== '') {
+         this.setState({selectedName: ''});
+      }
+
+      fetch('/names')
+           .then((res) => res.json())
+           .then(({ data } ) => this.setState({names: data}))
    };
 
    render() {
@@ -55,6 +56,7 @@ class Names extends Component {
               <div id="filterInput">
                  <InputGroup className="mb-3">
                     <FormControl
+                         as='input'
                          placeholder="Tap here for filtering"
                          aria-label="Tap here for filtering"
                          aria-describedby="basic-addon2"
@@ -66,10 +68,11 @@ class Names extends Component {
                     </InputGroup.Append>
                  </InputGroup>
               </div>
-              {names.map(({id, name, sex}) =>
+              {
+                 names.map(({id, name, sex}) =>
                    <Button variant="outline-primary" size="sm" type="button" id="buttonName"
-                           key={id} onClick = {(e) => this.clickHandler(name, id, sex, e)}> {name} </Button>
-              )
+                           key={id} onClick = {(e) => this.clickHandler(name, e)}> {name} </Button>
+                 )
               }
            </div>
       );
