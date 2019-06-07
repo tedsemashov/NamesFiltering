@@ -1,95 +1,93 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
-import FormControl from 'react-bootstrap/FormControl'
-import InputGroup from 'react-bootstrap/InputGroup';
+import FilterInput from './filterInput';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge'
 import './names.css';
 
 class Names extends Component {
    state = {
       names: [],
-      staticNames: [],
-      selectedName: '',
-      prevInputValue: null,
-   };
-
-   getNames() {
-      fetch('/names')
-           .then((res) => res.json())
-           .then(({ data } ) => {
-                this.setState({names: data});
-                this.setState({staticNames: data})
-           })
+      filteredNames: [],
+      selectedNames: [],
+      targetValue: ''
    };
 
    componentDidMount() {
-      this.getNames();
+      fetch('/names')
+           .then((res) => res.json())
+           .then(({ data } ) => {
+              this.setState({names: data})
+           })
    };
 
-   //Set Name in input tag and delete this {object} from list
-   setName = (name) => {
-      this.setState({selectedName: name});
-      let names = this.state.names;
-      for (let obj of names) {
-         if(obj.name === name) {
-            names.splice(names.indexOf(obj), 1);
-         }
-      }
+   setSelectedName = (id, name, sex) => {
+      const [selectedNames, names] = [[...this.state.selectedNames], [...this.state.names]];
+      const nameIndex = names.findIndex(obj => {
+         return obj.id === id;
+      });
+      names.splice(nameIndex, 1);
+      selectedNames.splice(id, 0, {id, name, sex});
+      this.setState({selectedNames, names});
    };
 
-   //Filtering names according to text in input
-   filterNames = (e) => {
-      let self = this;
-      this.setState({prevInputValue: e.target.value.length});
-
-      let filtering = function(updatedNames) {
-         updatedNames = updatedNames.filter(function (obj) {
-            return obj.name.toLowerCase().search(
-                 e.target.value.toLowerCase()) !== -1;
-         });
-         self.setState({selectedName: e.target.value});
-         self.setState({names: updatedNames});
-      };
-
-      if(e.target.value.length < this.state.prevInputValue) {
-         let updatedNames = this.state.staticNames;
-         filtering(updatedNames);
-      } else {
-         let updatedNames = this.state.names;
-         filtering(updatedNames);
-      }
+   returnSelectedName = (id, name, sex) => {
+      const [selectedNames, names] = [[...this.state.selectedNames], [...this.state.names]];
+      const selectedNameIndex = selectedNames.findIndex(obj => {
+         return obj.id === id;
+      });
+      selectedNames.splice(selectedNameIndex, 1);
+      names.splice(id, 0, {id, name, sex});
+      this.setState({selectedNames, names});
    };
 
-   //Canceled filtering and returned App to initial state
-   cancelName = () => {
-      this.getNames();
+   filteredNames = (value) => {
+      const names = [...this.state.names];
+      const filteredNames = names.filter((obj) => obj.name.toLowerCase().search(value.toLowerCase()) !== -1);
+      this.setState({filteredNames, targetValue: value});
+   };
 
-      if(this.state.selectedName.name !== '') {
-         this.setState({selectedName: ''});
+   onCancel = (value) => {
+     this.setState({targetValue: value});
+     debugger;
+   };
+
+   checkNamesArray = (inputValue) => {
+      // TODO need to refactor
+      if(inputValue === '') {
+         return this.state.names.map(({id, name, sex}) =>
+              <Button variant="outline-primary" size="sm" type="button" id="buttonName"
+                      key={id} onClick = {(e) => this.setSelectedName(id, name, sex, e)}> {name}</Button>
+         )
       }
+      return this.state.filteredNames.map(({id, name, sex}) =>
+           <Button variant="outline-primary" size="sm" type="button" id="buttonName"
+                   key={id} onClick = {(e) => this.setSelectedName(id, name, sex, e)}> {name}</Button>
+      )
    };
 
    render() {
-      const {names} = this.state;
+      const {selectedNames} = this.state;
       return (
            <div>
-              <div id="filterInput">
-                 <InputGroup className="mb-3">
-                    <FormControl
-                         placeholder="Tap here for filtering"
-                         value={this.state.selectedName}
-                         onChange={this.filterNames}
-                    />
-                    <InputGroup.Append>
-                       <Button variant="outline-danger" onClick = {this.cancelName}>X</Button>
-                    </InputGroup.Append>
-                 </InputGroup>
-              </div>
-              {
-                 names.map(({id, name}) =>
-                   <Button variant="outline-primary" size="sm" type="button" id="buttonName"
-                           key={id} onClick = {(e) => this.setName(name, e)}> {name} </Button>
-                 )
-              }
+              <ListGroup>
+                 <ListGroup.Item>
+                    <FilterInput filteredNames = {this.filteredNames} cancel = {this.onCancel}/>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                    {
+                       selectedNames.map(({id, name, sex}) =>
+                            <Button variant="outline-primary" size="sm" type="button" id="buttonName"
+                                    key={id} onClick = {(e) => this.returnSelectedName(id, name, sex, e)}> {name}     <Badge variant="primary">X</Badge> </Button>
+                       )
+                    }
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                    {
+                       this.checkNamesArray(this.state.targetValue)
+                    }
+                 </ListGroup.Item>
+              </ListGroup>
            </div>
       );
    }
