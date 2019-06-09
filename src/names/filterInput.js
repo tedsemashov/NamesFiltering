@@ -10,6 +10,7 @@ class FilterInput extends Component {
 
    onCancel = () => {
       this.props.cancel('');
+      document.getElementById("inputHandle").value = '';
    };
 
    render() {
@@ -17,6 +18,7 @@ class FilterInput extends Component {
            <div id="filterInput">
               <InputGroup className="mb-3">
                  <FormControl
+                      id="inputHandle"
                       placeholder="Tap here for filtering"
                       onChange={this.filterNames}
                  />
