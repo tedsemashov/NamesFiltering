@@ -4,13 +4,18 @@ import FormControl from "react-bootstrap/FormControl";
 import {Button} from "react-bootstrap";
 
 class FilterInput extends Component {
+   state = {
+     targetValue: ''
+   };
+
    filterNames = (e) => {
+      this.setState({targetValue: e.target.value});
       this.props.filteredNames(e.target.value);
    };
 
    onCancel = () => {
-      this.props.cancel('');
-      document.getElementById("inputHandle").value = '';
+      this.props.cancel();
+      this.setState({targetValue: ''})
    };
 
    render() {
@@ -21,6 +26,7 @@ class FilterInput extends Component {
                       id="inputHandle"
                       placeholder="Tap here for filtering"
                       onChange={this.filterNames}
+                      value={this.state.targetValue}
                  />
                  <InputGroup.Append>
                     <Button variant="outline-danger" onClick = {this.onCancel}>X</Button>
