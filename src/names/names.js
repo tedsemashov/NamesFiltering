@@ -10,6 +10,7 @@ class Names extends Component {
       names: [],
       filteredNames: [],
       selectedNames: [],
+      targetValue: '',
       indexFilteredName: null
    };
 
@@ -55,20 +56,17 @@ class Names extends Component {
    filteredNames = (value) => {
       const names = [...this.state.names];
       const filteredNames = names.filter((obj) => obj.name.toLowerCase().search(value.toLowerCase()) !== -1);
-      this.setState({filteredNames});
+      this.setState({filteredNames, targetValue: value});
    };
 
-   onCancel = () => {
-      this.setState({filteredNames: []});
+   onCancel = (value) => {
+      this.setState({filteredNames: [], targetValue: value});
    };
 
    checkNames = () => {
-      const [names, filteredNames] = [[...this.state.names], [...this.state.filteredNames]];
+      const [names, filteredNames, targetValue] = [[...this.state.names], [...this.state.filteredNames], this.state.targetValue];
       let arrayType = [];
-
-      debugger;
-
-      filteredNames.length === 0 ? arrayType = names : arrayType = filteredNames;
+      targetValue === '' ? arrayType = names : arrayType = filteredNames;
 
       return arrayType.map(({id, name, sex}) =>
            <Button variant="outline-primary" size="sm" type="button" id="buttonName"
@@ -83,6 +81,7 @@ class Names extends Component {
                  <ListGroup.Item>
                     <FilterInput filteredNames = {this.filteredNames}
                                  cancel = {this.onCancel}
+                                 targetValue = {this.state.targetValue}
                                  />
                  </ListGroup.Item>
                  <ListGroup.Item>
