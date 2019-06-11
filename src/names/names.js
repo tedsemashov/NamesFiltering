@@ -63,8 +63,13 @@ class Names extends Component {
    };
 
    checkNames = () => {
+      const [names, filteredNames] = [[...this.state.names], [...this.state.filteredNames]];
       let arrayType = [];
-      this.state.filteredNames.length === 0 ? arrayType = this.state.names : arrayType = this.state.filteredNames;
+
+      debugger;
+
+      filteredNames.length === 0 ? arrayType = names : arrayType = filteredNames;
+
       return arrayType.map(({id, name, sex}) =>
            <Button variant="outline-primary" size="sm" type="button" id="buttonName"
                    key={id} onClick = {(e) => this.setSelectedName(id, name, sex, e)}> {name}</Button>
