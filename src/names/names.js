@@ -42,14 +42,15 @@ class Names extends Component {
    };
 
    returnSelectedName = (id, name, sex) => {
-      const [selectedNames, names, filteredNames] = [[...this.state.selectedNames], [...this.state.names],
-                                                     [...this.state.filteredNames]];
+      const [selectedNames, names, filteredNames, indexFilteredName] = [[...this.state.selectedNames], [...this.state.names],
+                                                     [...this.state.filteredNames], this.state.indexFilteredName];
       const selectedNameIndex = selectedNames.findIndex(obj => {
          return obj.id === id;
       });
       selectedNames.splice(selectedNameIndex, 1);
-      filteredNames.length === 0 ? names.splice(id, 0, {id, name, sex}) :
-                                   filteredNames.splice(this.state.indexFilteredName, 0, {id, name, sex});
+      debugger;
+      names.splice(id, 0, {id, name, sex});
+      filteredNames.splice(indexFilteredName, 0, {id, name, sex});
       this.setState({selectedNames, names, filteredNames});
    };
 
