@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
-import FilterInput from './filterInput';
-import SelectedNames from './selectedNames';
+import FilterInput from '../input/filter-input';
+import SelectedNames from '../selected-names/selected-names';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './names.css';
 
 class Names extends Component {
    state = {
-      names: [],
       filteredNames: [],
       selectedNames: [],
       targetValue: '',
-      indexFilteredName: null
+      indexFilteredName: null,
+      names: []
    };
 
    componentDidMount() {
+      // this.props.getNames();
       fetch('/names')
            .then((res) => res.json())
            .then(({ data } ) => {
