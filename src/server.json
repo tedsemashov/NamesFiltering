@@ -1,7 +1,7 @@
 {
    "/names": {
       "get": {
-         "data": [
+         "names": [
             {
                "id": 0,
                "name": "Aria",
