@@ -1,11 +1,10 @@
 import { connect } from "react-redux";
 import {getNamesData, setSelectedName} from "../../actions";
-import {getNames, getFilteredNames} from '../../selectors';
+import {getFilteredNames} from '../../selectors';
 import Names from './Names';
 
 const mapStateToProps = (state) => {
    return {
-      names: getNames(state),
       filteredNames: getFilteredNames(state)
    }
 };

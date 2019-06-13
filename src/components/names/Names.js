@@ -21,16 +21,16 @@ class Names extends Component {
            <div>
               <ListGroup>
                  <ListGroup.Item>
-                    <FilterInput />
+                    <FilterInput/>
                  </ListGroup.Item>
                  <ListGroup.Item>
-                    <SelectedNames />
+                    <SelectedNames/>
                  </ListGroup.Item>
                  <ListGroup.Item>
                     {
                        filteredNames.map(({id, name,}) =>
                             <Button variant="outline-primary" size="sm" type="button" id="buttonName"
-                                    key={id} onClick = {() => this.setSelectedName(id)}> {name}</Button>
+                                    key={id} onClick = {() => this.setSelectedName(id)}> {name} </Button>
                        )
                     }
                  </ListGroup.Item>
