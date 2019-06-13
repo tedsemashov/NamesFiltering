@@ -1,4 +1,4 @@
-import { SET_NAMES_DATA, SET_INPUT_VALUE, SET_SELECTED_NAME, REMOVE_SELECTED_NAME} from './constants';
+import *as constants from './constants';
 
 export const getNamesData = () => {
    return (dispatch) => {
@@ -12,28 +12,28 @@ export const getNamesData = () => {
 
 export const setNamesData = (names) => {
    return {
-      type: SET_NAMES_DATA,
+      type: constants.SET_NAMES_DATA,
       names
    };
 };
 
 export const setInputValue = (value) => {
    return {
-      type: SET_INPUT_VALUE,
+      type: constants.SET_INPUT_VALUE,
       value
    }
 };
 
 export const setSelectedName = (id) => {
    return {
-      type: SET_SELECTED_NAME,
+      type: constants.SET_SELECTED_NAME,
       id
    }
 };
 
 export const removeSelectedName = (id) => {
    return {
-      type: REMOVE_SELECTED_NAME,
+      type: constants.REMOVE_SELECTED_NAME,
       id
    }
 };

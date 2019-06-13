@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
 import {setInputValue} from "../../actions";
-import {getVisibilityFilter} from '../../selectors';
-import FilterInput from '../input/filter-input';
+import {getInputValue} from '../../selectors';
+import InputFilter from './InputFilter';
 
 const mapStateToProps = (state) => {
    return {
-      inputValue: getVisibilityFilter(state),
+      inputValue: getInputValue(state),
    }
 };
 
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => {
    }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterInput)
+export default connect(mapStateToProps, mapDispatchToProps)(InputFilter)

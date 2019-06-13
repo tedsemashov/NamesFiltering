@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import {removeSelectedName} from "../../actions";
 import {getSelectedNames} from '../../selectors';
-import SelectedNames from '../selected-names/selected-names';
+import SelectedNames from './SelectedNames';
 
 const mapStateToProps = (state) => {
    return {

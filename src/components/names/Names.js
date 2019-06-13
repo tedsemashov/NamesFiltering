@@ -30,7 +30,7 @@ class Names extends Component {
                     {
                        filteredNames.map(({id, name,}) =>
                             <Button variant="outline-primary" size="sm" type="button" id="buttonName"
-                                    key={id} onClick = {(e) => this.setSelectedName(id)}> {name}</Button>
+                                    key={id} onClick = {() => this.setSelectedName(id)}> {name}</Button>
                        )
                     }
                  </ListGroup.Item>

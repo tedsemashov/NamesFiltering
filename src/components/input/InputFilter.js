@@ -3,7 +3,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import {Button} from "react-bootstrap";
 
-class FilterInput extends Component {
+class InputFilter extends Component {
 
    filterNames = (value) => {
       this.props.setInputValue(value);
@@ -31,4 +31,4 @@ class FilterInput extends Component {
    }
 }
 
-export default FilterInput;
+export default InputFilter;
