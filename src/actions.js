@@ -1,7 +1,6 @@
 import { SET_NAMES_DATA, SET_VISIBILITY_FILTER } from './constants';
 
 export const getNamesData = () => {
-   debugger;
    return (dispatch) => {
       fetch('/names')
            .then((res) => res.json())
@@ -12,7 +11,6 @@ export const getNamesData = () => {
 };
 
 export const setNamesData = (names) => {
-   debugger;
    return {
       type: SET_NAMES_DATA,
       names

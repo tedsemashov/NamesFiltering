@@ -1,16 +1,15 @@
 import { connect } from "react-redux";
 import {setVisibilityFilter} from "../../actions";
-import {getFilteredNames} from '../../selectors';
+import {getVisibilityFilter} from '../../selectors';
 import FilterInput from '../input/filter-input';
 
 const mapStateToProps = (state) => {
    return {
-      filteredNames: getFilteredNames(state)
+      inputValue: getVisibilityFilter(state),
    }
 };
 
 const mapDispatchToProps = (dispatch) => {
-   debugger;
    return {
       setVisibilityFilter: (filter) => dispatch(setVisibilityFilter(filter)),
    }

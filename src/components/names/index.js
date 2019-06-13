@@ -1,16 +1,16 @@
 import { connect } from "react-redux";
 import {getNamesData} from "../../actions";
-import {getNames} from '../../selectors';
+import {getNames, getFilteredNames} from '../../selectors';
 import Names from './Names';
 
 const mapStateToProps = (state) => {
    return {
-      names: getNames(state)
+      names: getNames(state),
+      filteredNames: getFilteredNames(state)
    }
 };
 
 const mapDispatchToProps = (dispatch) => {
-   debugger;
    return {
       getNamesData: () => dispatch(getNamesData())
    }

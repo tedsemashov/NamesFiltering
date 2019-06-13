@@ -6,7 +6,6 @@ const initialState = {
 };
 
 const rootReducer = (state = initialState, action) => {
-   debugger;
    switch (action.type) {
       case constants.SET_NAMES_DATA:
          return {

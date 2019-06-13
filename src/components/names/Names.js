@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
-import FilterInput from '../input/filter-input';
+import FilterInput from '../input';
 import SelectedNames from '../selected-names/selected-names';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './names.css';
@@ -17,7 +17,7 @@ class Names extends Component {
       this.props.getNamesData();
    };
 
-   setSelectedName = (id, name, sex) => {
+   setSelectedName = () => {
       // const [selectedNames, names, filteredNames] = [[...this.state.selectedNames], [...this.props.names],
       //                                                [...this.state.filteredNames]];
       // const nameIndex = names.findIndex(obj => {
@@ -49,12 +49,6 @@ class Names extends Component {
       // this.setState({selectedNames, names, filteredNames});
    };
 
-   filteredNames = (value) => {
-      // const names = [...this.props.names];
-      // const filteredNames = names.filter((obj) => obj.name.toLowerCase().search(value.toLowerCase()) !== -1);
-      // this.setState({filteredNames, targetValue: value});
-   };
-
    onCancel = (value) => {
       // this.setState({filteredNames: [], targetValue: value});
    };
@@ -72,9 +66,7 @@ class Names extends Component {
    };
 
    render() {
-      debugger;
-      const {names} = this.props;
-      debugger;
+      const {filteredNames} = this.props;
       return (
            <div>
               <ListGroup>
@@ -90,7 +82,7 @@ class Names extends Component {
                  </ListGroup.Item>
                  <ListGroup.Item>
                     {
-                       names.map(({id, name, sex}) =>
+                       filteredNames.map(({id, name, sex}) =>
                             <Button variant="outline-primary" size="sm" type="button" id="buttonName"
                                     key={id} onClick = {(e) => this.setSelectedName(id, name, sex, e)}> {name}</Button>
                        )
