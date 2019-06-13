@@ -6,11 +6,11 @@ import {Button} from "react-bootstrap";
 class FilterInput extends Component {
 
    filterNames = (value) => {
-      this.props.setVisibilityFilter(value);
+      this.props.setInputValue(value);
    };
 
    onCancel = () => {
-      this.props.setVisibilityFilter('');
+      this.props.setInputValue('');
    };
 
    render() {
@@ -18,7 +18,6 @@ class FilterInput extends Component {
            <div id="filterInput">
               <InputGroup className="mb-3">
                  <FormControl
-                      id="inputHandle"
                       placeholder="Tap here for filtering"
                       onChange={(e) => this.filterNames(e.target.value)}
                       value={this.props.inputValue}

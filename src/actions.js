@@ -1,4 +1,4 @@
-import { SET_NAMES_DATA, SET_VISIBILITY_FILTER } from './constants';
+import { SET_NAMES_DATA, SET_INPUT_VALUE, SET_SELECTED_NAME, REMOVE_SELECTED_NAME} from './constants';
 
 export const getNamesData = () => {
    return (dispatch) => {
@@ -17,9 +17,24 @@ export const setNamesData = (names) => {
    };
 };
 
-export const setVisibilityFilter = (filter) => {
+export const setInputValue = (value) => {
    return {
-      type: SET_VISIBILITY_FILTER,
-      filter
+      type: SET_INPUT_VALUE,
+      value
    }
 };
+
+export const setSelectedName = (id) => {
+   return {
+      type: SET_SELECTED_NAME,
+      id
+   }
+};
+
+export const removeSelectedName = (id) => {
+   return {
+      type: REMOVE_SELECTED_NAME,
+      id
+   }
+};
+

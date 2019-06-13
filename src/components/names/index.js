@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import {getNamesData} from "../../actions";
+import {getNamesData, setSelectedName} from "../../actions";
 import {getNames, getFilteredNames} from '../../selectors';
 import Names from './Names';
 
@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      getNamesData: () => dispatch(getNamesData())
+      getNamesData: () => dispatch(getNamesData()),
+      setSelectedName: (id) => dispatch(setSelectedName(id))
    }
 };
 

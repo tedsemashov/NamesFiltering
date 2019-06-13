@@ -2,7 +2,8 @@ import *as constants from './constants';
 
 const initialState = {
    names: [],
-   visibilityFilter: ''
+   inputValue: '',
+   selectedNamesIDs: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -12,10 +13,20 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             names: action.names
          };
-      case constants.SET_VISIBILITY_FILTER:
+      case constants.SET_INPUT_VALUE:
          return {
             ...state,
-            visibilityFilter: action.filter
+            inputValue: action.value
+         };
+      case constants.SET_SELECTED_NAME:
+         return {
+            ...state,
+            selectedNamesIDs: state.selectedNamesIDs.concat(action.id)
+         };
+      case constants.REMOVE_SELECTED_NAME:
+         return {
+            ...state,
+            selectedNamesIDs: state.selectedNamesIDs.filter((id) => action.id !== id)
          };
       default: return state;
    }
