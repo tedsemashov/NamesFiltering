@@ -6,7 +6,7 @@ describe ('names actions', () => {
       const names = {names: {name: 'Ted'}};
       const expectedAction = {
          type: constants.SET_NAMES_DATA,
-         names: {names: {name: 'Ted'}}
+         names
       };
       expect(setNamesData(names)).toEqual(expectedAction);
    });
@@ -15,7 +15,7 @@ describe ('names actions', () => {
       const value = 'ted';
       const expectedAction = {
          type: constants.SET_INPUT_VALUE,
-         value: 'ted'
+         value
       };
       expect(setInputValue(value)).toEqual(expectedAction);
    });
@@ -24,7 +24,7 @@ describe ('names actions', () => {
       const id = 5;
       const expectedAction = {
          type: constants.SET_SELECTED_NAME,
-         id: 5
+         id
       };
       expect(setSelectedName(id)).toEqual(expectedAction);
    });
@@ -33,7 +33,7 @@ describe ('names actions', () => {
       const id = 2;
       const expectedAction = {
          type: constants.REMOVE_SELECTED_NAME,
-         id: 2
+         id
       };
       expect(removeSelectedName(id)).toEqual(expectedAction);
    });
