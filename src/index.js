@@ -15,7 +15,7 @@ const store = createStore(rootReducer, composeEnhancers(
 
 ReactDOM.render(
      <Provider store={store}>
-        <Names/>
+         <Names/>
      </Provider>,
      document.getElementById('root')
 );

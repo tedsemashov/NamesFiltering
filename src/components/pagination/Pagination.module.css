@@ -1,0 +1,14 @@
+ul {
+    list-style: none;
+    display: flex;
+}
+
+li {
+    padding: 0 5px 0 5px;
+    cursor: pointer;
+    color: black;
+}
+
+.selectedState {
+    color: darkred;
+}
