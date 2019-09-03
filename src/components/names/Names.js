@@ -23,7 +23,7 @@ class Names extends Component {
                  {id:'24', name:'something'},{id:'25', name:'something'},{id:'26', name:'something'},{id:'27', name:'something'},
                  {id:'28', name:'something'},{id:'29', name:'something'},{id:'30', name:'something'},{id:'31', name:'something'},
                  {id:'32', name:'something'},{id:'33', name:'something'},{id:'34', name:'something'},{id:'35', name:'something'},
-                 {id:'36', name:'something'},{id:'37', name:'something'}]}
+              {id:'36', name:'something'},{id:'37', name:'something'},{id:'38', name:'something'},{id:'39', name:'something'},                      {id:'40', name:'something'},{id:'41', name:'something'},{id:'42', name:'something'},{id:'43', name:'something'},{id:'44', name:'something'},{id:'45', name:'something'},{id:'46', name:'something'},{id:'47', name:'something'}]}
                           onSelect = {(arr) => this.partOfActivities(arr)}
               />
            </div>

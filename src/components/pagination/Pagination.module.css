@@ -12,3 +12,7 @@ li {
 .selectedState {
     color: darkred;
 }
+
+.paginationContainer {
+    display: flex;
+}
