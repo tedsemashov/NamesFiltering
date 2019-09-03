@@ -4,9 +4,11 @@ import styles from './Pagination.module.css';
 class Pagination extends Component {
 
     state = {
-        selectedPage: 1,
         allPagesList: [],
-        currentPagesList: []
+        currentPagesList: [],
+        selectedPage: 1,
+        start: true,
+        end: false
     };
 
     componentDidMount() {
@@ -47,29 +49,48 @@ class Pagination extends Component {
     };
 
     nextPage = () => {
-        let {allPagesList, currentPagesList} = this.state;
+        let { allPagesList, currentPagesList } = this.state;
         let firstItem = currentPagesList[0];
         let lastItem = currentPagesList[currentPagesList.length - 1];
-        if(currentPagesList[currentPagesList.length-1] !== allPagesList[allPagesList.length-1]) {
-            let updatedList = allPagesList.slice(firstItem, lastItem+1);
-            this.setState({currentPagesList: updatedList});
+
+        if(currentPagesList[currentPagesList.length - 1] !== allPagesList[allPagesList.length - 1]) {
+            let updatedList = allPagesList.slice(firstItem, lastItem + 1 );
+            // this.setState({currentPagesList: updatedList, start: false, selectedPage: updatedList[0]});
+            this.setState({currentPagesList: updatedList, start: false});
+        }
+
+        if(currentPagesList.includes(allPagesList[allPagesList.length - 2])) {
+            this.setState({end: true});
+        }
+    };
+
+    previousPage = () => {
+        let { allPagesList, currentPagesList } = this.state;
+        let endItem = currentPagesList[currentPagesList.length - 1];
+        let startItem = currentPagesList[0];
+        let updatedList = allPagesList.slice(startItem - 2, endItem - 1);
+        this.setState({currentPagesList: updatedList, start: false, end: false});
+
+        if(currentPagesList.includes(allPagesList[1])) {
+            this.setState({start: true});
         }
     };
 
     render() {
-        const pagesAmount = this.state.allPagesList;
+        const { allPagesList, start, end } = this.state;
         return (
             <div className={styles.paginationContainer}>
                 {
-                    pagesAmount.length > 4
+                    allPagesList.length > 4
                          ?
                          <>
+                         { start ? false : <button onClick={this.previousPage}> back </button> }
                          <ul>
                              {
                                  this.renderPages()
                              }
                          </ul>
-                         <button onClick={this.nextPage}> > </button>
+                         { end ? false : <button onClick={this.nextPage}> next </button> }
                          </>
                          :
                          <ul>
