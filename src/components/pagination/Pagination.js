@@ -20,7 +20,7 @@ class Pagination extends Component {
    }
 
    pagesAmountArray = () => {
-      const {activities} = this.props;
+      const { activities } = this.props;
       const pagesAmount = Math.ceil(activities.length / 9);
       const newArr = [];
       for (let i = 1; i <= pagesAmount; i++) {
@@ -68,11 +68,12 @@ class Pagination extends Component {
       } else {
          this.setState({selectedPage: currentPagesList[1]})
       }
+
       this.partOfActivities(currentPagesList[1]);
    };
 
    previousPage = () => {
-      let {allPagesList, currentPagesList, selectedPage} = this.state;
+      let { allPagesList, currentPagesList, selectedPage } = this.state;
       let endItem = currentPagesList[currentPagesList.length - 1];
       let startItem = currentPagesList[0];
       let updatedList = allPagesList.slice(startItem - 2, endItem - 1);
@@ -85,7 +86,12 @@ class Pagination extends Component {
       if (selectedPage === currentPagesList[0]) {
          this.setState({selectedPage: currentPagesList[0] - 1})
       }
-      this.partOfActivities(currentPagesList[0] - 1);
+
+      if(updatedList.includes(selectedPage)) {
+         return false
+      } else {
+         this.partOfActivities(currentPagesList[0] - 1);
+      }
    };
 
    render() {

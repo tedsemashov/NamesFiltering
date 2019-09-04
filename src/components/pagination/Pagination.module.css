@@ -1,18 +1,19 @@
 ul {
-   list-style: none;
-   display: flex;
+    list-style: none;
+    display: flex;
 }
 
 li {
-   padding: 0 5px 0 5px;
-   cursor: pointer;
-   color: black;
+    padding: 0 5px 0 5px;
+    cursor: pointer;
+    color: darkred;
 }
 
 .selectedState {
-   color: darkred;
+    color: black;
+    font-weight: bold;
 }
 
 .paginationContainer {
-   display: flex;
+    display: flex;
 }
