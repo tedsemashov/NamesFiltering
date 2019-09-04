@@ -53,7 +53,20 @@ class Names extends Component {
                          name: 'something'
                       }, {id: '40', name: 'something'}, {id: '41', name: 'something'}, {id: '42', name: 'something'},
                       {id: '43', name: 'something'}, {id: '44', name: 'something'}, {id: '45', name: 'something'},
-                      {id: '46', name: 'something'}, {id: '47', name: 'something'}]}
+                      {id: '46', name: 'something'}, {id: '47', name: 'something'},
+                       {id: '40', name: 'something'}, {id: '41', name: 'something'}, {id: '42', name: 'something'},
+                       {id: '43', name: 'something'}, {id: '44', name: 'something'}, {id: '45', name: 'something'},
+                       {id: '46', name: 'something'}, {id: '47', name: 'something'},
+                       {id: '40', name: 'something'}, {id: '41', name: 'something'}, {id: '42', name: 'something'},
+                       {id: '43', name: 'something'}, {id: '44', name: 'something'}, {id: '45', name: 'something'},
+                       {id: '46', name: 'something'}, {id: '47', name: 'something'},
+                       {id: '40', name: 'something'}, {id: '41', name: 'something'}, {id: '42', name: 'something'},
+                       {id: '43', name: 'something'}, {id: '44', name: 'something'}, {id: '45', name: 'something'},
+                       {id: '46', name: 'something'}, {id: '47', name: 'something'},
+                       {id: '40', name: 'something'}, {id: '41', name: 'something'}, {id: '42', name: 'something'},
+                       {id: '43', name: 'something'}, {id: '44', name: 'something'}, {id: '45', name: 'something'},
+                       {id: '46', name: 'something'}, {id: '47', name: 'something'},
+                   ]}
 
                    onSelect={(arr) => this.partOfActivities(arr)}
               />

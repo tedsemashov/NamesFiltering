@@ -38,7 +38,7 @@ class Pagination extends Component {
    };
 
    renderPages = () => {
-      const {selectedPage} = this.state;
+      const { selectedPage } = this.state;
       return this.state.currentPagesList.map((item) =>
            item === selectedPage
                 ?
@@ -50,33 +50,26 @@ class Pagination extends Component {
    };
 
    nextPage = () => {
-      let { allPagesList, currentPagesList } = this.state;
-      let firstItem = currentPagesList[0];
-      let lastItem = currentPagesList[currentPagesList.length - 1];
+      const { allPagesList, currentPagesList } = this.state;
 
-      if (currentPagesList[currentPagesList.length - 1] !== allPagesList[allPagesList.length - 1]) {
-         let updatedList = allPagesList.slice(firstItem, lastItem + 1);
-         this.setState({currentPagesList: updatedList, start: false});
-      }
+      let updatedArray = allPagesList.slice(currentPagesList[3]);
+      let nextPagesList = updatedArray.slice(0, 4);
+      this.setState({currentPagesList: nextPagesList, start: false});
 
-      if (currentPagesList.includes(allPagesList[allPagesList.length - 2])) {
-         this.setState({end: true});
+      if (nextPagesList.includes(allPagesList[allPagesList.length - 1])) {
+         this.setState({start: false, end: true});
       }
    };
 
    previousPage = () => {
-      let { allPagesList, currentPagesList, selectedPage } = this.state;
-      let endItem = currentPagesList[currentPagesList.length - 1];
-      let startItem = currentPagesList[0];
-      let updatedList = allPagesList.slice(startItem - 2, endItem - 1);
-      this.setState({currentPagesList: updatedList, start: false, end: false});
+      let { allPagesList, currentPagesList } = this.state;
 
-      if (currentPagesList.includes(allPagesList[1])) {
+      let updatedArray = allPagesList.slice(allPagesList[0] - 1, currentPagesList[0] - 1);
+      let previousPagesList = updatedArray.slice(updatedArray.length - 4, updatedArray.length);
+      this.setState({currentPagesList: previousPagesList, end: false});
+
+      if (previousPagesList.includes(allPagesList[1])) {
          this.setState({start: true});
-      }
-
-      if (selectedPage === currentPagesList[0]) {
-         this.setState({selectedPage: currentPagesList[0] - 1})
       }
    };
 
