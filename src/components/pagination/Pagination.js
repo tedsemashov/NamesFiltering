@@ -50,7 +50,7 @@ class Pagination extends Component {
    };
 
    nextPage = () => {
-      let {allPagesList, currentPagesList, selectedPage} = this.state;
+      let { allPagesList, currentPagesList } = this.state;
       let firstItem = currentPagesList[0];
       let lastItem = currentPagesList[currentPagesList.length - 1];
 
@@ -62,14 +62,6 @@ class Pagination extends Component {
       if (currentPagesList.includes(allPagesList[allPagesList.length - 2])) {
          this.setState({end: true});
       }
-
-      if (selectedPage !== currentPagesList[0]) {
-         return false;
-      } else {
-         this.setState({selectedPage: currentPagesList[1]})
-      }
-
-      this.partOfActivities(currentPagesList[1]);
    };
 
    previousPage = () => {
@@ -85,12 +77,6 @@ class Pagination extends Component {
 
       if (selectedPage === currentPagesList[0]) {
          this.setState({selectedPage: currentPagesList[0] - 1})
-      }
-
-      if(updatedList.includes(selectedPage)) {
-         return false
-      } else {
-         this.partOfActivities(currentPagesList[0] - 1);
       }
    };
 
