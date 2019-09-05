@@ -98,7 +98,6 @@ class Pagination extends Component {
                             this.renderPagesList()
                          }
                       </ul>
-
               }
            </div>
       );

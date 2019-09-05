@@ -1,10 +1,13 @@
 ul {
     list-style: none;
     display: flex;
+
+    /*overwrite bootstrap ->*/
+    margin-bottom: 0;
 }
 
 li {
-    padding: 0 5px 0 5px;
+    padding: 0 10px 0 10px;
     cursor: pointer;
     color: darkred;
 }
@@ -16,4 +19,6 @@ li {
 
 .paginationContainer {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
