@@ -105,4 +105,14 @@ class Pagination extends Component {
    }
 }
 
+Pagination.defaultProps = {
+   activities: [],
+   onSelect: () => {}
+};
+
+Pagination.propTypes = {
+   activities: PropTypes.array,
+   onSelect: PropTypes.func
+};
+
 export default Pagination;
