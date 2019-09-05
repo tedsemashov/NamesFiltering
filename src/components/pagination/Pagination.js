@@ -38,14 +38,9 @@ class Pagination extends Component {
       this.props.onSelect(activitiesList[selectedPage - 1]);
    };
 
-   nextPage = () => {
+   updatePagesGroupIndex = (update) => {
       const { currentPagesGroupIndex } = this.state;
-      this.setState({currentPagesGroupIndex: currentPagesGroupIndex + 1});
-   };
-
-   previousPage = () => {
-      const { currentPagesGroupIndex } = this.state;
-      this.setState({currentPagesGroupIndex: currentPagesGroupIndex - 1});
+      this.setState({currentPagesGroupIndex: currentPagesGroupIndex + update});
    };
 
    renderPagesList = () => {
@@ -73,14 +68,14 @@ class Pagination extends Component {
                  activitiesList.length > pagesAmount
                       ?
                       <>
-                         { currentPagesGroupIndex !== 0 && <i onClick={this.previousPage}> back </i> }
+                         { currentPagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
                          {/*{ currentPagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
                             {
                                this.renderPagesList()
                             }
                          </ul>
-                         { currentPagesGroupIndex !== pagesList.length - 1 && <i onClick={this.nextPage}> next </i> }
+                         { currentPagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
                          {/*{currentPagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
