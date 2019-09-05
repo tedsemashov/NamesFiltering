@@ -1,17 +1,3 @@
-ul {
-    list-style: none;
-    display: flex;
-
-    /*overwrite bootstrap ->*/
-    margin-bottom: 0;
-}
-
-li {
-    padding: 0 10px 0 10px;
-    cursor: pointer;
-    color: darkred;
-}
-
 .selectedState {
     color: black;
     font-weight: bold;
@@ -21,4 +7,27 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    width: 150px;
+    justify-content: center;
+
+    /*overwrite bootstrap ->*/
+    margin-bottom: 0;
+}
+
+li {
+    padding: 0 10px 0 10px;
+    cursor: pointer;
+
+    /*$primary-lighter*/
+    /*color: #ebcfe0*/
+
+    /*$primary-darker*/
+    color: #5e083b;
 }

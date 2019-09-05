@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Pagination.module.css';
 const ITEMS_AMOUNT = 4;
-const ACTIVITIES_AMOUNT = 9;
 
 class Pagination extends Component {
 
@@ -23,8 +22,8 @@ class Pagination extends Component {
    };
 
    creatingPagesArray = () => {
-      const { activities } = this.props;
-      const pagesAmount = Math.ceil(activities.length / ACTIVITIES_AMOUNT);
+      const { activities, activitiesAmount } = this.props;
+      const pagesAmount = Math.ceil(activities.length / activitiesAmount);
       const newArr = [];
       for (let i = 1; i <= pagesAmount; i++) {
          newArr.push(i);
@@ -32,11 +31,11 @@ class Pagination extends Component {
       return newArr;
    };
 
-   getPartOfActivities = item => {
-      const { activities } = this.props;
-      const end = item * ACTIVITIES_AMOUNT;
-      const start = end - ACTIVITIES_AMOUNT;
-      this.setState({ selectedPage: item });
+   getPartOfActivities = selectedPage => {
+      const { activities, activitiesAmount } = this.props;
+      const end = selectedPage * activitiesAmount;
+      const start = end - activitiesAmount;
+      this.setState({ selectedPage: selectedPage });
       this.props.onSelect(activities.slice(start, end));
    };
 
@@ -84,13 +83,15 @@ class Pagination extends Component {
                  allPagesList.length > ITEMS_AMOUNT
                       ?
                       <>
-                         { start ? false : <button onClick={this.previousPage}> back </button> }
+                         { start ? false : <i onClick={this.previousPage}> back </i> }
+                         {/*{ start ? false : <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
                             {
                                this.renderPagesList()
                             }
                          </ul>
-                         { end ? false : <button onClick={this.nextPage}> next </button> }
+                         { end ? false : <i onClick={this.nextPage}> next </i> }
+                         {/*{ end ? false : <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
                       <ul>
