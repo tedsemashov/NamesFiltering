@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import styles from './Pagination.module.css';
+const ITEMS_AMOUNT = 4;
+const ACTIVITIES_AMOUNT = 9;
 
 class Pagination extends Component {
 
@@ -12,16 +15,16 @@ class Pagination extends Component {
    };
 
    componentDidMount() {
-      const pagesAmount = this.pagesAmountArray();
+      const pagesAmount = this.creatingPagesArray();
       this.setState({allPagesList: pagesAmount});
-      if (pagesAmount.length > 4) {
-         this.setState({currentPagesList: pagesAmount.slice(0, 4)})
-      }
-   }
+      pagesAmount.length > ITEMS_AMOUNT
+          ? this.setState({currentPagesList: pagesAmount.slice(0, ITEMS_AMOUNT)})
+          : this.setState({currentPagesList: pagesAmount})
+   };
 
-   pagesAmountArray = () => {
+   creatingPagesArray = () => {
       const { activities } = this.props;
-      const pagesAmount = Math.ceil(activities.length / 9);
+      const pagesAmount = Math.ceil(activities.length / ACTIVITIES_AMOUNT);
       const newArr = [];
       for (let i = 1; i <= pagesAmount; i++) {
          newArr.push(i);
@@ -29,43 +32,29 @@ class Pagination extends Component {
       return newArr;
    };
 
-   partOfActivities = (item) => {
-      const {activities} = this.props;
-      const end = item * 9;
-      const start = end - 9;
-      this.setState({selectedPage: item});
+   getPartOfActivities = item => {
+      const { activities } = this.props;
+      const end = item * ACTIVITIES_AMOUNT;
+      const start = end - ACTIVITIES_AMOUNT;
+      this.setState({ selectedPage: item });
       this.props.onSelect(activities.slice(start, end));
-   };
-
-   renderPages = () => {
-      const { selectedPage } = this.state;
-      return this.state.currentPagesList.map((item) =>
-           item === selectedPage
-                ?
-                <li key={item} className={styles.selectedState} onClick={() =>
-                     this.partOfActivities(item)}> {item} </li>
-                :
-                <li key={item} onClick={() => this.partOfActivities(item)}> {item} </li>
-      )
    };
 
    nextPage = () => {
       const { allPagesList, currentPagesList } = this.state;
-
-      let updatedArray = allPagesList.slice(currentPagesList[3]);
-      let nextPagesList = updatedArray.slice(0, 4);
+      const updatedList = allPagesList.slice(currentPagesList[3]);
+      const nextPagesList = updatedList.slice(0, ITEMS_AMOUNT);
       this.setState({currentPagesList: nextPagesList, start: false});
 
       if (nextPagesList.includes(allPagesList[allPagesList.length - 1])) {
-         this.setState({start: false, end: true});
+         this.setState({end: true});
       }
    };
 
    previousPage = () => {
-      let { allPagesList, currentPagesList } = this.state;
-
-      let updatedArray = allPagesList.slice(allPagesList[0] - 1, currentPagesList[0] - 1);
-      let previousPagesList = updatedArray.slice(updatedArray.length - 4, updatedArray.length);
+      const { allPagesList, currentPagesList } = this.state;
+      const updatedList = allPagesList.slice(allPagesList[0] - 1, currentPagesList[0] - 1);
+      const previousPagesList = updatedList.slice(updatedList.length - ITEMS_AMOUNT, updatedList.length);
       this.setState({currentPagesList: previousPagesList, end: false});
 
       if (previousPagesList.includes(allPagesList[1])) {
@@ -73,26 +62,40 @@ class Pagination extends Component {
       }
    };
 
+   renderPagesList = () => {
+      const { selectedPage, currentPagesList } = this.state;
+      return currentPagesList.map(
+          item => item === selectedPage
+              ?
+              <li key={item}
+                  className={styles.selectedState}
+                  onClick={() => this.getPartOfActivities(item)}> { item } </li>
+              :
+              <li key={item}
+                  onClick={() => this.getPartOfActivities(item)}> { item } </li>
+      )
+   };
+
    render() {
-      const {allPagesList, start, end} = this.state;
+      const { allPagesList, start, end } = this.state;
       return (
            <div className={styles.paginationContainer}>
               {
-                 allPagesList.length > 4
+                 allPagesList.length > ITEMS_AMOUNT
                       ?
                       <>
-                         {start ? false : <button onClick={this.previousPage}> back </button>}
+                         { start ? false : <button onClick={this.previousPage}> back </button> }
                          <ul>
                             {
-                               this.renderPages()
+                               this.renderPagesList()
                             }
                          </ul>
-                         {end ? false : <button onClick={this.nextPage}> next </button>}
+                         { end ? false : <button onClick={this.nextPage}> next </button> }
                       </>
                       :
                       <ul>
                          {
-                            this.renderPages()
+                            this.renderPagesList()
                          }
                       </ul>
 
