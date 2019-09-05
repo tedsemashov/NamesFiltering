@@ -8,7 +8,7 @@ class Pagination extends Component {
    state = {
       activitiesList: [],
       pagesList: [],
-      currentPagesGroup: 0,
+      currentPagesGroupIndex: 0,
       selectedPage: 1,
    };
 
@@ -24,13 +24,12 @@ class Pagination extends Component {
    };
 
    creatingPagesList = length => {
-      const { itemsAmount } = this.props;
-      const pagesAmount = Math.ceil(length);
-      const newArr = [];
-      for (let i = 1; i <= pagesAmount; i++) {
-         newArr.push(i);
+      const { pagesAmount } = this.props;
+      const pagesListGeneral = [];
+      for (let i = 1; i <= length; i++) {
+         pagesListGeneral.push(i);
       }
-      this.setState({pagesList: chunk(newArr, itemsAmount)})
+      this.setState({pagesList: chunk(pagesListGeneral, pagesAmount)})
    };
 
    getPartOfActivities = selectedPage => {
@@ -40,28 +39,19 @@ class Pagination extends Component {
    };
 
    nextPage = () => {
-      const { currentPagesGroup, pagesList } = this.state;
-      this.setState({currentPagesGroup: currentPagesGroup + 1, start: false});
-
-      if (currentPagesGroup === pagesList.length - 2) {
-         this.setState({end: true});
-      }
+      const { currentPagesGroupIndex } = this.state;
+      this.setState({currentPagesGroupIndex: currentPagesGroupIndex + 1});
    };
 
    previousPage = () => {
-      const { currentPagesGroup, pagesList } = this.state;
-      this.setState({currentPagesGroup: currentPagesGroup - 1, end: false});
-
-      if (pagesList[currentPagesGroup - 1] === pagesList[0]) {
-         this.setState({start: true});
-      }
+      const { currentPagesGroupIndex } = this.state;
+      this.setState({currentPagesGroupIndex: currentPagesGroupIndex - 1});
    };
 
    renderPagesList = () => {
-      const { pagesList, currentPagesGroup, selectedPage} = this.state;
+      const { pagesList, currentPagesGroupIndex, selectedPage} = this.state;
       if(pagesList.length !== 0) {
-
-         return pagesList[currentPagesGroup].map(
+         return pagesList[currentPagesGroupIndex].map(
              item => item === selectedPage
                  ?
                  <li key={item}
@@ -71,28 +61,27 @@ class Pagination extends Component {
                  <li key={item}
                      onClick={() => this.getPartOfActivities(item)}> { item } </li>
          )
-
       }
    };
 
    render() {
-      const { activitiesList, pagesList, currentPagesGroup} = this.state;
-      const { itemsAmount } = this.props;
+      const { activitiesList, pagesList, currentPagesGroupIndex} = this.state;
+      const { pagesAmount } = this.props;
       return (
            <div className={styles.paginationContainer}>
               {
-                 activitiesList.length > itemsAmount
+                 activitiesList.length > pagesAmount
                       ?
                       <>
-                         { currentPagesGroup !== 0 && <i onClick={this.previousPage}> back </i> }
-                         {/*{ currentPagesGroup !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
+                         { currentPagesGroupIndex !== 0 && <i onClick={this.previousPage}> back </i> }
+                         {/*{ currentPagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
                             {
                                this.renderPagesList()
                             }
                          </ul>
-                         { currentPagesGroup !== pagesList.length - 1 && <i onClick={this.nextPage}> next </i> }
-                         {/*{currentPagesGroup !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
+                         { currentPagesGroupIndex !== pagesList.length - 1 && <i onClick={this.nextPage}> next </i> }
+                         {/*{currentPagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
                       <ul>
@@ -110,14 +99,14 @@ Pagination.defaultProps = {
    activities: [],
    onSelect: () => {},
    activitiesAmount: '9',
-   itemsAmount: '4'
+   pagesAmount: '4'
 };
 
 Pagination.propTypes = {
    activities: PropTypes.array,
    onSelect: PropTypes.func,
    activitiesAmount: PropTypes.string,
-   itemsAmount: PropTypes.string
+   pagesAmount: PropTypes.string
 };
 
 export default Pagination;
