@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './names.css';
-import Pagination from "../pagination/";
+import Pagination from "../pagination/Pagination";
 
 class Names extends Component {
 
