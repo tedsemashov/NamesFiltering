@@ -1,97 +1,98 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Pagination.module.css';
-const ITEMS_AMOUNT = 4;
+import chunk from 'lodash.chunk';
 
 class Pagination extends Component {
 
    state = {
-      allPagesList: [],
-      currentPagesList: [],
+      activitiesList: [],
+      pagesList: [],
+      currentPagesGroup: 0,
       selectedPage: 1,
-      start: true,
-      end: false
    };
 
    componentDidMount() {
-      const pagesAmount = this.creatingPagesArray();
-      this.setState({allPagesList: pagesAmount});
-      pagesAmount.length > ITEMS_AMOUNT
-          ? this.setState({currentPagesList: pagesAmount.slice(0, ITEMS_AMOUNT)})
-          : this.setState({currentPagesList: pagesAmount})
+      const { activities, activitiesAmount } = this.props;
+      const activitiesList = chunk(activities, activitiesAmount);
+      this.setState({ activitiesList });
+      this.creatingPagesList(activitiesList.length);
    };
 
-   creatingPagesArray = () => {
-      const { activities, activitiesAmount } = this.props;
-      const pagesAmount = Math.ceil(activities.length / activitiesAmount);
+   componentDidUpdate() {
+      this.renderPagesList();
+   };
+
+   creatingPagesList = length => {
+      const { itemsAmount } = this.props;
+      const pagesAmount = Math.ceil(length);
       const newArr = [];
       for (let i = 1; i <= pagesAmount; i++) {
          newArr.push(i);
       }
-      return newArr;
+      this.setState({pagesList: chunk(newArr, itemsAmount)})
    };
 
    getPartOfActivities = selectedPage => {
-      const { activities, activitiesAmount } = this.props;
-      const end = selectedPage * activitiesAmount;
-      const start = end - activitiesAmount;
-      this.setState({ selectedPage: selectedPage });
-      this.props.onSelect(activities.slice(start, end));
+      const { activitiesList } = this.state;
+      this.setState({ selectedPage });
+      this.props.onSelect(activitiesList[selectedPage - 1]);
    };
 
    nextPage = () => {
-      const { allPagesList, currentPagesList } = this.state;
-      const updatedList = allPagesList.slice(currentPagesList[3]);
-      const nextPagesList = updatedList.slice(0, ITEMS_AMOUNT);
-      this.setState({currentPagesList: nextPagesList, start: false});
+      const { currentPagesGroup, pagesList } = this.state;
+      this.setState({currentPagesGroup: currentPagesGroup + 1, start: false});
 
-      if (nextPagesList.includes(allPagesList[allPagesList.length - 1])) {
+      if (currentPagesGroup === pagesList.length - 2) {
          this.setState({end: true});
       }
    };
 
    previousPage = () => {
-      const { allPagesList, currentPagesList } = this.state;
-      const updatedList = allPagesList.slice(allPagesList[0] - 1, currentPagesList[0] - 1);
-      const previousPagesList = updatedList.slice(updatedList.length - ITEMS_AMOUNT, updatedList.length);
-      this.setState({currentPagesList: previousPagesList, end: false});
+      const { currentPagesGroup, pagesList } = this.state;
+      this.setState({currentPagesGroup: currentPagesGroup - 1, end: false});
 
-      if (previousPagesList.includes(allPagesList[1])) {
+      if (pagesList[currentPagesGroup - 1] === pagesList[0]) {
          this.setState({start: true});
       }
    };
 
    renderPagesList = () => {
-      const { selectedPage, currentPagesList } = this.state;
-      return currentPagesList.map(
-          item => item === selectedPage
-              ?
-              <li key={item}
-                  className={styles.selectedState}
-                  onClick={() => this.getPartOfActivities(item)}> { item } </li>
-              :
-              <li key={item}
-                  onClick={() => this.getPartOfActivities(item)}> { item } </li>
-      )
+      const { pagesList, currentPagesGroup, selectedPage} = this.state;
+      if(pagesList.length !== 0) {
+
+         return pagesList[currentPagesGroup].map(
+             item => item === selectedPage
+                 ?
+                 <li key={item}
+                     className={styles.selectedState}
+                     onClick={() => this.getPartOfActivities(item)}> { item } </li>
+                 :
+                 <li key={item}
+                     onClick={() => this.getPartOfActivities(item)}> { item } </li>
+         )
+
+      }
    };
 
    render() {
-      const { allPagesList, start, end } = this.state;
+      const { activitiesList, pagesList, currentPagesGroup} = this.state;
+      const { itemsAmount } = this.props;
       return (
            <div className={styles.paginationContainer}>
               {
-                 allPagesList.length > ITEMS_AMOUNT
+                 activitiesList.length > itemsAmount
                       ?
                       <>
-                         { start ? false : <i onClick={this.previousPage}> back </i> }
-                         {/*{ start ? false : <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
+                         { currentPagesGroup !== 0 && <i onClick={this.previousPage}> back </i> }
+                         {/*{ currentPagesGroup !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
                             {
                                this.renderPagesList()
                             }
                          </ul>
-                         { end ? false : <i onClick={this.nextPage}> next </i> }
-                         {/*{ end ? false : <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
+                         { currentPagesGroup !== pagesList.length - 1 && <i onClick={this.nextPage}> next </i> }
+                         {/*{currentPagesGroup !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
                       <ul>
@@ -107,12 +108,16 @@ class Pagination extends Component {
 
 Pagination.defaultProps = {
    activities: [],
-   onSelect: () => {}
+   onSelect: () => {},
+   activitiesAmount: '9',
+   itemsAmount: '4'
 };
 
 Pagination.propTypes = {
    activities: PropTypes.array,
-   onSelect: PropTypes.func
+   onSelect: PropTypes.func,
+   activitiesAmount: PropTypes.string,
+   itemsAmount: PropTypes.string
 };
 
 export default Pagination;

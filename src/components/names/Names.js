@@ -109,6 +109,7 @@ class Names extends Component {
 
                    onSelect={(arr) => this.partOfActivities(arr)}
                    activitiesAmount = '9'
+                   itemsAmount = '4'
               />
            </div>
       );
