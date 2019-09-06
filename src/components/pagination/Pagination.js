@@ -4,7 +4,6 @@ import styles from './Pagination.module.css';
 import chunk from 'lodash.chunk';
 
 class Pagination extends Component {
-
    constructor(props) {
       super(props);
       this.state = {
@@ -48,14 +47,11 @@ class Pagination extends Component {
    renderPagesList = () => {
       const { pagesList, pagesGroupIndex, selectedPage} = this.state;
          return pagesList[pagesGroupIndex].map(
-             item => item === selectedPage
-                 ?
+             item =>
                  <li key={item}
-                     className={styles.selectedState}
-                     onClick={() => this.getPartOfActivities(item)}> { item } </li>
-                 :
-                 <li key={item}
-                     onClick={() => this.getPartOfActivities(item)}> { item } </li>
+                     className={item === selectedPage ? styles.selectedState : undefined}
+                     onClick={() => this.getPartOfActivities(item)}> { item }
+                 </li>
          )
    };
 
@@ -71,18 +67,14 @@ class Pagination extends Component {
                          { pagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
                          {/*{ pagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
-                            {
-                               this.renderPagesList()
-                            }
+                            { this.renderPagesList() }
                          </ul>
                          { pagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
                          {/*{pagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
                       <ul>
-                         {
-                            this.renderPagesList()
-                         }
+                         { this.renderPagesList() }
                       </ul>
               }
            </div>
