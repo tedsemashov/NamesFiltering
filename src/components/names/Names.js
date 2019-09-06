@@ -99,7 +99,12 @@ class Names extends Component {
             {id: '3', name: 'somethingNew'},
             {id: '4', name: 'somethingNew'},
             {id: '5', name: 'somethingNew'},
-            {id: '6', name: 'somethingNew'}
+            {id: '6', name: 'somethingNew'},
+            {id: '7', name: 'somethingNew'},
+            {id: '8', name: 'somethingNew'},
+            {id: '9', name: 'somethingNew'},
+            {id: '10', name: 'somethingNew'},
+            {id: '11', name: 'somethingNew'},
         ];
         this.setState({activities: activ})
     };
