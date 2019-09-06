@@ -15,7 +15,7 @@ class Pagination extends Component {
    }
 
    componentDidUpdate(prevProps) {
-      if ( prevProps !== this.props ) {
+      if (prevProps !== this.props) {
             this.setState({
                activitiesList: chunk(this.props.activities, this.props.activitiesAmount),
                pagesList: this.creatingPagesList(this.props),
@@ -58,26 +58,19 @@ class Pagination extends Component {
    };
 
    render() {
-      const { activitiesList, pagesList, pagesGroupIndex} = this.state;
-      const { pagesAmount } = this.props;
+      const { pagesList, pagesGroupIndex} = this.state;
       return (
            <div className={styles.paginationContainer}>
               {
-                 activitiesList.length > pagesAmount
-                      ?
-                      <>
-                         { pagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
-                         {/*{ pagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
-                         <ul>
-                            { this.renderPagesList() }
-                         </ul>
-                         { pagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
-                         {/*{pagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
-                      </>
-                      :
-                      <ul>
-                         { this.renderPagesList() }
-                      </ul>
+               <>
+                  { pagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
+                  {/*{ pagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
+                  <ul>
+                     { this.renderPagesList() }
+                  </ul>
+                  { pagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
+                  {/*{pagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
+               </>
               }
            </div>
       );
