@@ -5,31 +5,33 @@ import chunk from 'lodash.chunk';
 
 class Pagination extends Component {
 
-   state = {
-      activitiesList: [],
-      pagesList: [],
-      currentPagesGroupIndex: 0,
-      selectedPage: 1,
-   };
+   constructor(props) {
+      super(props);
+      this.state = {
+         activitiesList: chunk(props.activities, props.activitiesAmount),
+         pagesList: this.creatingPagesList(props),
+         pagesGroupIndex: 0,
+         selectedPage: 1,
+      }
+   }
 
-   componentDidMount() {
-      const { activities, activitiesAmount } = this.props;
-      const activitiesList = chunk(activities, activitiesAmount);
-      this.setState({ activitiesList });
-      this.creatingPagesList(activitiesList.length);
-   };
+   componentWillReceiveProps(props) {
+      this.setState({
+         activitiesList: chunk(props.activities, props.activitiesAmount),
+         pagesList: this.creatingPagesList(props),
+         pagesGroupIndex: 0,
+         selectedPage: 1,
+      })
+   }
 
-   componentDidUpdate() {
-      this.renderPagesList();
-   };
-
-   creatingPagesList = length => {
-      const { pagesAmount } = this.props;
+   creatingPagesList = props => {
+      const { pagesAmount, activities, activitiesAmount} = props;
+      const activitiesLength = chunk(activities, activitiesAmount).length;
       const pagesListGeneral = [];
-      for (let i = 1; i <= length; i++) {
+      for (let i = 1; i <= activitiesLength; i++) {
          pagesListGeneral.push(i);
       }
-      this.setState({pagesList: chunk(pagesListGeneral, pagesAmount)})
+      return chunk(pagesListGeneral, pagesAmount);
    };
 
    getPartOfActivities = selectedPage => {
@@ -38,15 +40,14 @@ class Pagination extends Component {
       this.props.onSelect(activitiesList[selectedPage - 1]);
    };
 
-   updatePagesGroupIndex = (update) => {
-      const { currentPagesGroupIndex } = this.state;
-      this.setState({currentPagesGroupIndex: currentPagesGroupIndex + update});
+   updatePagesGroupIndex = update => {
+      const { pagesGroupIndex } = this.state;
+      this.setState({pagesGroupIndex: pagesGroupIndex + update});
    };
 
    renderPagesList = () => {
-      const { pagesList, currentPagesGroupIndex, selectedPage} = this.state;
-      if(pagesList.length !== 0) {
-         return pagesList[currentPagesGroupIndex].map(
+      const { pagesList, pagesGroupIndex, selectedPage} = this.state;
+         return pagesList[pagesGroupIndex].map(
              item => item === selectedPage
                  ?
                  <li key={item}
@@ -56,11 +57,10 @@ class Pagination extends Component {
                  <li key={item}
                      onClick={() => this.getPartOfActivities(item)}> { item } </li>
          )
-      }
    };
 
    render() {
-      const { activitiesList, pagesList, currentPagesGroupIndex} = this.state;
+      const { activitiesList, pagesList, pagesGroupIndex} = this.state;
       const { pagesAmount } = this.props;
       return (
            <div className={styles.paginationContainer}>
@@ -68,15 +68,15 @@ class Pagination extends Component {
                  activitiesList.length > pagesAmount
                       ?
                       <>
-                         { currentPagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
-                         {/*{ currentPagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
+                         { pagesGroupIndex !== 0 && <i onClick={() => this.updatePagesGroupIndex(-1)}> back </i> }
+                         {/*{ pagesGroupIndex !== 0 && <i className='icon-amplify-arrow-left' onClick={this.previousPage}/> }*/}
                          <ul>
                             {
                                this.renderPagesList()
                             }
                          </ul>
-                         { currentPagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
-                         {/*{currentPagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
+                         { pagesGroupIndex !== pagesList.length - 1 && <i onClick={() => this.updatePagesGroupIndex(+1)}> next </i> }
+                         {/*{pagesGroupIndex !== pagesList.length - 1 && <i className='icon-amplify-arrow-right' onClick={this.nextPage}/> }*/}
                       </>
                       :
                       <ul>
