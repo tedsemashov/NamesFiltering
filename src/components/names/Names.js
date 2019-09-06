@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './names.css';
-import Pagination from "../pagination/Pagination";
+import Pagination from "../pagination/Pagination.jsx";
 
 const activities = [{id: '1', name: 'something'}, {id: '2', name: 'something'}, {id: '3', name: 'something'},
     {id: '4', name: 'something'}, {id: '5', name: 'something'}, {id: '6', name: 'something'},

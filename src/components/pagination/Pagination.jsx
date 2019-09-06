@@ -15,7 +15,7 @@ class Pagination extends Component {
    }
 
    componentDidUpdate(prevProps) {
-      if (prevProps !== this.props) {
+      if (prevProps.activities !== this.props.activities) {
             this.setState({
                activitiesList: chunk(this.props.activities, this.props.activitiesAmount),
                pagesList: this.creatingPagesList(this.props),
