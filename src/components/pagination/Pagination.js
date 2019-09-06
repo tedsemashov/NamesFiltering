@@ -14,13 +14,15 @@ class Pagination extends Component {
       }
    }
 
-   componentWillReceiveProps(props) {
-      this.setState({
-         activitiesList: chunk(props.activities, props.activitiesAmount),
-         pagesList: this.creatingPagesList(props),
-         pagesGroupIndex: 0,
-         selectedPage: 1,
-      })
+   componentDidUpdate(prevProps) {
+      if ( prevProps !== this.props ) {
+            this.setState({
+               activitiesList: chunk(this.props.activities, this.props.activitiesAmount),
+               pagesList: this.creatingPagesList(this.props),
+               pagesGroupIndex: 0,
+               selectedPage: 1,
+            })
+      }
    }
 
    creatingPagesList = props => {
